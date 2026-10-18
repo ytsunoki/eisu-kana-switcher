@@ -6,10 +6,12 @@ struct en_kana_switchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @AppStorage(SettingsKey.mode) private var mode = SwitchMode.absolute.rawValue
     @AppStorage(SettingsKey.enabled) private var enabled = true
+    @AppStorage(SettingsKey.autoSwitch) private var autoSwitch = false
 
     var body: some Scene {
         MenuBarExtra("英数/かな切り替え", systemImage: "keyboard") {
             Toggle("有効", isOn: $enabled)
+            Toggle("アプリに応じて自動切り替え", isOn: $autoSwitch)
             Divider()
             Picker("切り替えモード", selection: $mode) {
                 ForEach(SwitchMode.allCases) { Text($0.title).tag($0.rawValue) }
@@ -28,7 +30,9 @@ struct en_kana_switchApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let monitor = KeyMonitor()
     private let hud = FloatingHUD()
+    private let context = AppContextSwitcher()
     private var retryTimer: Timer?
+    private var defaultsObserver: NSObjectProtocol?
 
     static func requestAccessibility() {
         let opts = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
@@ -36,6 +40,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        context.onSwitched = { [weak self] kind in self?.hud.show(kind == .eisu ? "A" : "あ") }
+        syncAutoSwitch()
+        defaultsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification, object: nil, queue: .main
+        ) { [weak self] _ in self?.syncAutoSwitch() }
         monitor.onTap = { [weak self] side in self?.handleTap(side) }
         if !monitor.start() {
             // 権限が無い場合は許可を促し、付与されるまで再試行する
@@ -46,6 +55,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self.retryTimer = nil
             }
         }
+    }
+
+    private func syncAutoSwitch() {
+        if UserDefaults.standard.bool(forKey: SettingsKey.autoSwitch) { context.start() } else { context.stop() }
     }
 
     private func handleTap(_ side: KeyMonitor.Side) {

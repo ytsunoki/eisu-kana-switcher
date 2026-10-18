@@ -17,4 +17,5 @@ enum SwitchMode: String, CaseIterable, Identifiable {
 enum SettingsKey {
     static let mode = "switchMode"
     static let enabled = "switchEnabled"
+    static let autoSwitch = "autoSwitchByApp"
 }
