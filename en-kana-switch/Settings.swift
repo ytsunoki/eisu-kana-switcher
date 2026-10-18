@@ -14,6 +14,16 @@ enum SwitchMode: String, CaseIterable, Identifiable {
     }
 }
 
+extension SwitchMode {
+    /// Command 単押し時に切り替える先の入力ソース。
+    func target(for side: CommandTapDetector.Side, current: InputKind) -> InputKind {
+        switch self {
+        case .absolute: return side == .left ? .eisu : .kana
+        case .toggle: return current == .eisu ? .kana : .eisu
+        }
+    }
+}
+
 enum SettingsKey {
     static let mode = "switchMode"
     static let enabled = "switchEnabled"

@@ -4,7 +4,7 @@ import CoreGraphics
 /// CGEventTap で Command キーの「単押し(タップ)」を検出する。
 /// Cmd を押している間に他のキー/マウス操作があれば単押しとはみなさない。
 final class KeyMonitor {
-    enum Side { case left, right }
+    typealias Side = CommandTapDetector.Side
 
     var onTap: ((Side) -> Void)?
 
@@ -15,8 +15,7 @@ final class KeyMonitor {
     private let leftCmd: Int64 = 0x37
     private let rightCmd: Int64 = 0x36
 
-    private var pending: Side?       // 押下中で、まだ単押しの可能性があるキー
-    private var cmdDownCount = 0     // 押下中の Command キー数
+    private var detector = CommandTapDetector()
 
     var isRunning: Bool { tap != nil }
 
@@ -59,10 +58,7 @@ final class KeyMonitor {
         reset()
     }
 
-    private func reset() {
-        pending = nil
-        cmdDownCount = 0
-    }
+    private func reset() { detector.reset() }
 
     private func handle(type: CGEventType, event: CGEvent) {
         switch type {
@@ -72,50 +68,19 @@ final class KeyMonitor {
         case .flagsChanged:
             handleFlags(event)
         default:
-            // 他のキー・マウス操作 = Cmd は修飾キーとして使われている
-            pending = nil
+            detector.otherInput()
         }
     }
 
     private func handleFlags(_ event: CGEvent) {
         let code = event.getIntegerValueField(.keyboardEventKeycode)
         guard code == leftCmd || code == rightCmd else {
-            // Shift 等、他の修飾キーの変化も単押しを無効化する
-            pending = nil
+            detector.otherInput()  // Shift 等、他の修飾キーの変化
             return
         }
         let side: Side = code == leftCmd ? .left : .right
-
-        // Command が全て離されているのに状態が残っていたら同期をとり直す
-        if !event.flags.contains(.maskCommand) {
-            let tapped = pending == side && (side == .left ? leftHeld : rightHeld)
-            leftHeld = false
-            rightHeld = false
-            cmdDownCount = 0
-            pending = nil
-            if tapped { onTap?(side) }
-            return
+        if let tapped = detector.commandChanged(side, anyCommandDown: event.flags.contains(.maskCommand)) {
+            onTap?(tapped)
         }
-
-        if side == .left ? leftHeld : rightHeld {
-            // 片方を離した(もう片方は押下中)
-            setHeld(side, false)
-            pending = nil
-        } else {
-            setHeld(side, true)
-            // 他の Command が押されたままなら単押しではない
-            pending = cmdDownCount == 1 ? side : nil
-        }
-    }
-
-    private var leftHeld = false
-    private var rightHeld = false
-
-    private func setHeld(_ side: Side, _ held: Bool) {
-        switch side {
-        case .left: leftHeld = held
-        case .right: rightHeld = held
-        }
-        cmdDownCount = (leftHeld ? 1 : 0) + (rightHeld ? 1 : 0)
     }
 }

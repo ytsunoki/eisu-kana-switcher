@@ -66,11 +66,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard defaults.object(forKey: SettingsKey.enabled) as? Bool ?? true else { return }
         let mode = SwitchMode(rawValue: defaults.string(forKey: SettingsKey.mode) ?? "") ?? .absolute
 
-        let target: InputKind
-        switch mode {
-        case .absolute: target = side == .left ? .eisu : .kana
-        case .toggle: target = InputSourceController.current() == .eisu ? .kana : .eisu
-        }
+        let target = mode.target(for: side, current: InputSourceController.current())
         if InputSourceController.select(target) {
             hud.show(target == .eisu ? "A" : "あ")
         }
