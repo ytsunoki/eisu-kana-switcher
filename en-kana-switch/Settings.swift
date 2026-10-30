@@ -27,5 +27,4 @@ extension SwitchMode {
 enum SettingsKey {
     static let mode = "switchMode"
     static let enabled = "switchEnabled"
-    static let autoSwitch = "autoSwitchByApp"
 }

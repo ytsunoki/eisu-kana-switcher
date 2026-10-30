@@ -6,6 +6,16 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		A10000000000000000000008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 470B6EA730846BAD00DF2548 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 470B6EAE30846BAD00DF2548;
+			remoteInfo = "en-kana-switch";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		470B6EAF30846BAD00DF2548 /* en-kana-switch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "en-kana-switch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000002 /* en-kana-switchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "en-kana-switchTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,31 +34,13 @@
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
-/* Begin PBXContainerItemProxy section */
-		A10000000000000000000008 = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 470B6EA730846BAD00DF2548 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 470B6EAE30846BAD00DF2548;
-			remoteInfo = "en-kana-switch";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXTargetDependency section */
-		A10000000000000000000007 = {
-			isa = PBXTargetDependency;
-			target = 470B6EAE30846BAD00DF2548 /* en-kana-switch */;
-			targetProxy = A10000000000000000000008;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		A10000000000000000000005 /* Frameworks */ = {
+		470B6EAC30846BAD00DF2548 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
 		};
-		470B6EAC30846BAD00DF2548 /* Frameworks */ = {
+		A10000000000000000000005 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 			);
@@ -97,7 +89,7 @@
 		};
 		A10000000000000000000001 /* en-kana-switchTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A10000000000000000000009;
+			buildConfigurationList = A10000000000000000000009 /* Build configuration list for PBXNativeTarget "en-kana-switchTests" */;
 			buildPhases = (
 				A10000000000000000000004 /* Sources */,
 				A10000000000000000000005 /* Frameworks */,
@@ -106,7 +98,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				A10000000000000000000007,
+				A10000000000000000000007 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A10000000000000000000003 /* en-kana-switchTests */,
@@ -156,12 +148,12 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A10000000000000000000006 /* Resources */ = {
+		470B6EAD30846BAD00DF2548 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
 		};
-		470B6EAD30846BAD00DF2548 /* Resources */ = {
+		A10000000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -169,17 +161,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A10000000000000000000004 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			files = (
-			);
-		};
 		470B6EAB30846BAD00DF2548 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
 			);
 		};
+		A10000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A10000000000000000000007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 470B6EAE30846BAD00DF2548 /* en-kana-switch */;
+			targetProxy = A10000000000000000000008 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		470B6EB830846BAE00DF2548 /* Debug configuration for PBXProject "en-kana-switch" */ = {
@@ -362,7 +362,7 @@
 			};
 			name = Release;
 		};
-		A10000000000000000000010 /* Debug */ = {
+		A10000000000000000000010 /* Debug configuration for PBXNativeTarget "en-kana-switchTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -376,13 +376,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ytsunoki.en-kana-switchTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/en-kana-switch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/en-kana-switch";
 			};
 			name = Debug;
 		};
-		A10000000000000000000011 /* Release */ = {
+		A10000000000000000000011 /* Release configuration for PBXNativeTarget "en-kana-switchTests" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -396,8 +396,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ytsunoki.en-kana-switchTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/en-kana-switch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/en-kana-switch";
 			};
 			name = Release;
@@ -421,11 +421,11 @@
 			);
 			defaultConfigurationName = Release;
 		};
-		A10000000000000000000009 = {
+		A10000000000000000000009 /* Build configuration list for PBXNativeTarget "en-kana-switchTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A10000000000000000000010,
-				A10000000000000000000011,
+				A10000000000000000000010 /* Debug configuration for PBXNativeTarget "en-kana-switchTests" */,
+				A10000000000000000000011 /* Release configuration for PBXNativeTarget "en-kana-switchTests" */,
 			);
 			defaultConfigurationName = Release;
 		};
