@@ -37,7 +37,7 @@ final class KeyMonitor {
         guard let tap = CGEvent.tapCreate(
             tap: .cgSessionEventTap,
             place: .headInsertEventTap,
-            options: .listenOnly,
+            options: .defaultTap,  // アクセシビリティ権限で動作。イベントは変更せず通す
             eventsOfInterest: mask,
             callback: callback,
             userInfo: Unmanaged.passUnretained(self).toOpaque()
