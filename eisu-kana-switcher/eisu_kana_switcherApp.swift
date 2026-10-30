@@ -36,7 +36,6 @@ struct eisu_kana_switcherApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let monitor = KeyMonitor()
-    private let hud = FloatingHUD()
     private var retryTimer: Timer?
 
     static func requestAccessibility() {
@@ -65,8 +64,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let mode = SwitchMode(rawValue: defaults.string(forKey: SettingsKey.mode) ?? "") ?? .absolute
 
         let target = mode.target(for: side, current: InputSourceController.current())
-        if InputSourceController.select(target) {
-            hud.show(target == .eisu ? "A" : "あ")
-        }
+        InputSourceController.select(target)
     }
 }
