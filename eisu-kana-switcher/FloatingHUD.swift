@@ -43,11 +43,32 @@ final class FloatingHUD {
 
 private struct HUDView: View {
     let text: String
+    private let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
+
     var body: some View {
-        Text(text)
-            .font(.system(size: 56, weight: .semibold))
-            .foregroundStyle(.white)
+        label
             .frame(width: 120, height: 120)
-            .background(RoundedRectangle(cornerRadius: 24).fill(.black.opacity(0.7)))
+            .modifier(HUDBackground(shape: shape))
+    }
+
+    private var label: some View {
+        Text(text).font(.system(size: 56, weight: .semibold))
+    }
+}
+
+/// macOS 26 以降は Liquid Glass、それ以前は半透明の黒背景。
+private struct HUDBackground: ViewModifier {
+    let shape: RoundedRectangle
+
+    func body(content: Content) -> some View {
+        if #available(macOS 26, *) {
+            content
+                .foregroundStyle(.primary)
+                .glassEffect(.regular, in: shape)
+        } else {
+            content
+                .foregroundStyle(.white)
+                .background(shape.fill(.black.opacity(0.7)))
+        }
     }
 }
