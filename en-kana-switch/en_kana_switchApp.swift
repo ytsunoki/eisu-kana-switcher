@@ -1,5 +1,13 @@
 import SwiftUI
 import ApplicationServices
+import Combine
+
+/// アクセシビリティ権限の状態。変化をメニュー表示に反映するため Observable にする。
+final class PermissionState: ObservableObject {
+    static let shared = PermissionState()
+    @Published var trusted = AXIsProcessTrusted()
+    func refresh() { trusted = AXIsProcessTrusted() }
+}
 
 @main
 struct en_kana_switchApp: App {
@@ -7,6 +15,7 @@ struct en_kana_switchApp: App {
     @AppStorage(SettingsKey.mode) private var mode = SwitchMode.absolute.rawValue
     @AppStorage(SettingsKey.enabled) private var enabled = true
     @AppStorage(SettingsKey.autoSwitch) private var autoSwitch = false
+    @ObservedObject private var permission = PermissionState.shared
 
     var body: some Scene {
         MenuBarExtra("英数/かな切り替え", systemImage: "keyboard") {
@@ -18,7 +27,7 @@ struct en_kana_switchApp: App {
             }
             .pickerStyle(.inline)
             Divider()
-            if !AXIsProcessTrusted() {
+            if !permission.trusted {
                 Button("アクセシビリティ権限を許可…") { AppDelegate.requestAccessibility() }
             }
             Button("終了") { NSApplication.shared.terminate(nil) }
@@ -46,11 +55,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             forName: UserDefaults.didChangeNotification, object: nil, queue: .main
         ) { [weak self] _ in self?.syncAutoSwitch() }
         monitor.onTap = { [weak self] side in self?.handleTap(side) }
+        defer { PermissionState.shared.refresh() }
         if !monitor.start() {
             // 権限が無い場合は許可を促し、付与されるまで再試行する
             Self.requestAccessibility()
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] t in
                 guard let self, self.monitor.start() else { return }
+                PermissionState.shared.refresh()
                 t.invalidate()
                 self.retryTimer = nil
             }
