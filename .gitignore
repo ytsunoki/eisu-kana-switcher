@@ -3,3 +3,11 @@ xcuserdata/
 build/
 DerivedData/
 dist/
+
+# Signing certificates / private keys
+*.p12
+*.pfx
+*.cer
+*.key
+*.pem
+*.mobileprovision
