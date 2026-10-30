@@ -14,13 +14,11 @@ struct en_kana_switchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @AppStorage(SettingsKey.mode) private var mode = SwitchMode.absolute.rawValue
     @AppStorage(SettingsKey.enabled) private var enabled = true
-    @AppStorage(SettingsKey.autoSwitch) private var autoSwitch = false
     @ObservedObject private var permission = PermissionState.shared
 
     var body: some Scene {
         MenuBarExtra("英数/かな切り替え", systemImage: "keyboard") {
             Toggle("有効", isOn: $enabled)
-            Toggle("アプリに応じて自動切り替え", isOn: $autoSwitch)
             Divider()
             Picker("切り替えモード", selection: $mode) {
                 ForEach(SwitchMode.allCases) { Text($0.title).tag($0.rawValue) }
