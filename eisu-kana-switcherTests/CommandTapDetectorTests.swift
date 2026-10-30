@@ -1,5 +1,5 @@
 import XCTest
-@testable import en_kana_switch
+@testable import eisu_kana_switcher
 
 /// 仕様 2: Command 単押し判定
 final class CommandTapDetectorTests: XCTestCase {

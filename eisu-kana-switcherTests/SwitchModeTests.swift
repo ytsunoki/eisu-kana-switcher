@@ -1,5 +1,5 @@
 import XCTest
-@testable import en_kana_switch
+@testable import eisu_kana_switcher
 
 /// 仕様 2: モードA/B、仕様 4: 設定の永続化
 final class SwitchModeTests: XCTestCase {
@@ -24,10 +24,10 @@ final class SwitchModeTests: XCTestCase {
     }
 
     func testModeSurvivesUserDefaultsRoundTrip() {
-        let suite = UserDefaults(suiteName: "en-kana-switch.tests")!
-        defer { suite.removePersistentDomain(forName: "en-kana-switch.tests") }
+        let suite = UserDefaults(suiteName: "eisu-kana-switcher.tests")!
+        defer { suite.removePersistentDomain(forName: "eisu-kana-switcher.tests") }
         suite.set(SwitchMode.toggle.rawValue, forKey: SettingsKey.mode)
-        let reloaded = UserDefaults(suiteName: "en-kana-switch.tests")!
+        let reloaded = UserDefaults(suiteName: "eisu-kana-switcher.tests")!
         XCTAssertEqual(SwitchMode(rawValue: reloaded.string(forKey: SettingsKey.mode) ?? ""), .toggle)
     }
 }

@@ -1,5 +1,5 @@
 import XCTest
-@testable import en_kana_switch
+@testable import eisu_kana_switcher
 
 /// 仕様 4, 5: アプリ構成
 final class AppConfigurationTests: XCTestCase {

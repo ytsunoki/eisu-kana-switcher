@@ -10,7 +10,7 @@ final class PermissionState: ObservableObject {
 }
 
 @main
-struct en_kana_switchApp: App {
+struct eisu_kana_switcherApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @AppStorage(SettingsKey.mode) private var mode = SwitchMode.absolute.rawValue
     @AppStorage(SettingsKey.enabled) private var enabled = true
